@@ -37,14 +37,14 @@ public class Application{
   }
 
   public String mainMenu(Scanner keyboard){
-    System.out.println(userStatus());
+    System.out.print(userStatus());
     String[] menuOptions = new String[userList.size() + 2];
     menuOptions[0] = "Create New User";
-    menuOptions[0] = "Exit";
+    menuOptions[1] = "Exit";
     if (!userList.isEmpty()) {
       for (int i = 2; i < userList.size() + 2 ; i++) {
-        menuOptions[i] = userList.get(i).user.name + "("
-            + userList.get(i).user.getClass().getName() + ")";
+        menuOptions[i] = userList.get(i - 2).user.name + "("
+            + userList.get(i - 2).user.getClass().getName() + ")";
       }
     }
     int menuOpt = intMenu(keyboard,
@@ -80,18 +80,6 @@ public class Application{
         toPrint = toPrint + userList.get(i).updateView();
       }
     }
-    //Initial User Menu: Create new User adopt existing User
-    toPrint = toPrint + "Please enter the number of the mainMenu item you would like to select:\n";
-    toPrint = toPrint + ("1. Create New User\n");
-    toPrint = toPrint + ("2. Exit \n");
-    // list existing users
-    if (!userList.isEmpty()) {
-      //print out
-      for (int i = 0; i < userList.size() ; i++) {
-        toPrint = toPrint + (i + 3) + ". " + userList.get(i).user.name + "("
-            + userList.get(i).user.getClass().getName() + ")\n";
-      }
-    }
     //Prints user info if any
     return toPrint;
   }
@@ -102,35 +90,36 @@ public class Application{
   }
 
   private void createNewUser(int userType) {
-    User newUser;
+    UserController uc;
     if (userType == 1) {
       System.out.println("What is the name of your new user?");
-      newUser = new Parent(getInput());
+      uc = new ParentController(getInput());
     } else if (userType == 2) {
       if(userList.size() > 0){
+        Child newUser;
         System.out.println("Who's child is this?");
         for (int i = 0; i < userList.size() && userList.get(i).user.getClass().getName() == "Parent" ; i++) {
           System.out.println( (i + 1) + ". " + userList.get(i).user.name + "\n");
         }
         Parent rent = (Parent) userList.get(Integer.parseInt(getInput()) - 1).user;
         System.out.println("What is the child name?");
-        String cname = getInput();
-        if(!rent.childList.containsKey(cname)) {
+        String cName = getInput();
+        if(!rent.childList.containsKey(cName)) {
           System.out.println("What mode is the child starting in? \n1.Positive\n2.Negative");
           switch (Integer.parseInt(getInput())) {
             case 1:
-              newUser = rent.addChild(cname, "Positive");
+              uc = new ChildController(cName, "Positive", rent);
               break;
             case 2:
-              newUser = rent.addChild(cname, "Negative");
+              uc = new ChildController(cName, "Negative", rent);
               break;
             default:
               System.out.println("!Invalid Input!");
               return;
           }
         }else {
-          System.out.println(cname + "added as user");
-          newUser = rent.childList.get(cname);
+          System.out.println(cName + "added as user");
+          uc = new ChildController(rent.childList.get(cName));
         }
       }else {
         System.out.println("!Invalid Input!");
@@ -140,7 +129,6 @@ public class Application{
       System.out.println("!Invalid Input!");
       return;
     }
-    UserController uc = new UserController(newUser);
     userList.add(uc);
   }
 }
