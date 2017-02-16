@@ -15,8 +15,8 @@ public class Token
     timeStamp = sdf.format(new Date());
   }
 
-  public Token(String note, Date fakeDate){
-    this.note = note;
+  public Token(Date fakeDate){
+    this.note = "Automatically added by token schedule";
     timeStamp = sdf.format(fakeDate);
   }
 

@@ -42,20 +42,25 @@ public class Child extends User{
     }
     return amt + " new tokens given to " + name;
   }
+
+  public String deleteToken(int tokenIndex){
+    tokenlist.remove(tokenIndex - 1);
+    return "Token #" + (tokenIndex + 1) + " deleted";
+  }
+
   public void updateTokens(){
     if(scheduleTokenInterval > 0) {
       Date curDate = new Date();
       while (Math.floor((curDate.getTime() - lastUpdated.getTime()) / 1000) >= scheduleTokenInterval && scheduleTokenAmt > 0) {
         lastUpdated.setTime(lastUpdated.getTime() + (scheduleTokenInterval * 1000));
-        tokenlist.add(new Token("Automatically added by token schedule", lastUpdated));
+        tokenlist.add(new Token(lastUpdated));
       }
     }
   }
 
   public String getStatus(){
     updateTokens();
-    String returnMe =  this.name + "(Mode: " + mode + ", Tokens: " + tokenlist.size() + ")";
-    return returnMe;
+    return this.name + "(Mode: " + mode + ", Tokens: " + tokenlist.size() + ")";
   }
 
   public String addItem(String name, int amt){

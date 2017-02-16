@@ -6,8 +6,10 @@ import java.util.*;
 public abstract class UserController
 {
   public User user;
+  public boolean type;
 
   public abstract String updateView();
 
-  public abstract String executeAction(Scanner keyboard);
+  public abstract String menuString();
+
 }

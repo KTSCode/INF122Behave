@@ -53,10 +53,6 @@ public class ApplicationTest {
     cChild2.add("1"); //select Add Child
     cChild2.add("Sally"); //enter child name
     cChild2.add("1"); //mode (Positive)
-    cChild2.add("1"); //select Create New User
-    cChild2.add("2"); //select Child
-    cChild2.add("1"); //select Bob
-    cChild2.add("Sally");
     // Give child 2 tokens
     cToken.addAll(cChild); //a child must exist to be given tokens
     cToken.add("3"); //Select Bob
